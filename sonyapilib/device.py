@@ -596,6 +596,17 @@ class SonyDevice:
             url=self.control_url, params=data, action=action)
         return content
 
+    def _get_protocol_info(self):
+        """Send a SOAP request to get protocol information for sinks / sources"""
+        data = """<m:GetProtocolInfo xmlns:m="urn:schemas-upnp-org:service:ConnectionManager:1">"
+                    </m:GetProtocolInfo>"""
+
+        action = "urn:schemas-upnp-org:service:ConnectionManager:1#GetProtocolInfo"
+
+        content = self._post_soap_request(
+            url=self.control_url, params=data, action=action)
+        return content
+
     def _send_command(self, name):
         if not self.commands:
             self.init_device()
@@ -781,6 +792,14 @@ class SonyDevice:
         except requests.RequestException:
             pass
         return False
+
+    def get_sources(self):
+        """Get the sources of the device"""
+        return self._get_protocol_info()
+
+    def get_sinks(self):
+        """Get the sinks of the device"""
+        return self._get_protocol_info()
 
     def start_app(self, app_name):
         """Start an app by name"""

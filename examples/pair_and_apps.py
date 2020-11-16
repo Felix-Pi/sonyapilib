@@ -42,6 +42,8 @@ if __name__ == "__main__":
     if not is_on:
         device.power(True)
 
+    device.get_sources()
+
     status = device.get_playing_status()
 
     apps = device.get_apps()
